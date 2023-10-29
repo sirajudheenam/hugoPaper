@@ -25,11 +25,8 @@
   {{ if .Params.tags }}
   <footer class="mt-12 flex flex-wrap">
     {{ range .Params.tags }} {{ $href := print (absURL "tags/") (urlize .) }}
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
-      href="{{ $href }}"
-      >{{ . }}</a
-    >
+    <a class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{
+      . }}</a>
     {{ end }}
   </footer>
   {{ end }}
@@ -40,22 +37,31 @@
   {{ if and (gt (len $pages) 1) (in $pages . ) }}
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     {{ with $pages.Next . }}
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="{{ .Permalink }}"
-      ><span class="mr-1.5">←</span><span>{{ .Name }}</span></a
-    >
+    <a class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="{{ .Permalink }}"><span class="mr-1.5">←</span><span>{{ .Name }}</span></a>
     {{ end }}<!---->
     {{ with $pages.Prev . }}
-    <a
-      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="{{ .Permalink }}"
-      ><span>{{ .Name }}</span><span class="ml-1.5">→</span></a
-    >
+    <a class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="{{ .Permalink }}"><span>{{ .Name }}</span><span class="ml-1.5">→</span></a>
     {{ end }}
   </nav>
   {{ end }}<!---->
   {{ end }}
+
+  {{ if site.googleAnalytics }}
+  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=" + {{ site.googleAnalytics }}></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', '{{ site.googleAnalytics }}');
+  </script>
+
+  {{ end }}
+
 
   <!-- Disqus -->
   {{ if and site.DisqusShortname (not (eq .Params.comments false)) }}
@@ -103,22 +109,18 @@
 
   <!-- giscus comment -->
   {{ if and site.Params.giscus.repo (not (eq .Params.comments false)) }}
-    <div class="giscus mt-24"></div>
-    <script src="https://giscus.app/client.js"
-          data-repo="{{ site.Params.giscus.repo }}"
-          data-repo-id="{{ site.Params.giscus.repoId }}"
-          data-category="{{ site.Params.giscus.category }}"
-          data-category-id="{{ site.Params.giscus.categoryId }}"
-          data-mapping="{{ site.Params.giscus.mapping | default (print `pathname`) }}"
-          data-strict="{{ site.Params.giscus.strict | default (print `1`) }}"
-          data-reactions-enabled="{{ site.Params.giscus.reactionsEnabled | default (print `0`) }}"
-          data-emit-metadata="{{ site.Params.giscus.emitMetadata | default (print `0`) }}"
-          data-input-position="{{ site.Params.giscus.inputPosition | default (print `top`) }}"
-          data-theme="{{ site.Params.giscus.theme | default (print `light`) }}"
-          data-lang="{{ site.Params.giscus.lang | default (print `en`) }}"
-          data-loading="{{ site.Params.giscus.loading | default (print `lazy`) }}"
-          crossorigin="anonymous"
-          async>
+  <div class="giscus mt-24"></div>
+  <script src="https://giscus.app/client.js" data-repo="{{ site.Params.giscus.repo }}"
+    data-repo-id="{{ site.Params.giscus.repoId }}" data-category="{{ site.Params.giscus.category }}"
+    data-category-id="{{ site.Params.giscus.categoryId }}"
+    data-mapping="{{ site.Params.giscus.mapping | default (print `pathname`) }}"
+    data-strict="{{ site.Params.giscus.strict | default (print `1`) }}"
+    data-reactions-enabled="{{ site.Params.giscus.reactionsEnabled | default (print `0`) }}"
+    data-emit-metadata="{{ site.Params.giscus.emitMetadata | default (print `0`) }}"
+    data-input-position="{{ site.Params.giscus.inputPosition | default (print `top`) }}"
+    data-theme="{{ site.Params.giscus.theme | default (print `light`) }}"
+    data-lang="{{ site.Params.giscus.lang | default (print `en`) }}"
+    data-loading="{{ site.Params.giscus.loading | default (print `lazy`) }}" crossorigin="anonymous" async>
     </script>
   {{ end }}
 </article>
